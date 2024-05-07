@@ -2,6 +2,9 @@
 
 using UnrealBuildTool;
 
+// shorter version
+using System.IO;
+
 public class SuperManager : ModuleRules
 {
 	public SuperManager(ReadOnlyTargetRules Target) : base(Target)
@@ -17,7 +20,12 @@ public class SuperManager : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				// ... add other private include paths required here ...
+				// long version
+				//System.IO.Path.GetFullPath(Target.RelativeEnginePath) + ("Source/Editor/Blutility/Private"),
+				
+				// shorter version
+				Path.Combine(EngineDirectory, "Source/Editor/Blutility/Private"),
+				//Path.Combine(EngineDirectory, "Plugins/Edtor/EditorScriptingUtilities/Source/EditorScriptingUtilities/Private")
 			}
 			);
 			
@@ -27,6 +35,12 @@ public class SuperManager : ModuleRules
 			{
 				"Core",
 				// ... add other public dependencies that you statically link with here ...
+				"Blutility",
+				"EditorScriptingUtilities",
+				"Niagara",
+				"UMG",
+				"UnrealEd",
+				/*"AssetToolsModule"*/
 			}
 			);
 			
@@ -37,7 +51,7 @@ public class SuperManager : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore",
+				"SlateCore", "EditorScriptingUtilities",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
