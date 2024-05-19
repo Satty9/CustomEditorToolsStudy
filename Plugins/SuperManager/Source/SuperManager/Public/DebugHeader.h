@@ -4,42 +4,44 @@
 #include "Widgets/Notifications/SNotificationList.h"
 #include "Framework/Notifications/NotificationManager.h"
 
-
-void Print (const FString& Message, const FColor& Color = FColor::White)
+namespace DebugHeader
 {
-	if(!GEngine) {return;}
+	static void Print (const FString& Message, const FColor& Color = FColor::White)
+	{
+		if(!GEngine) {return;}
 	
-	GEngine->AddOnScreenDebugMessage(-1, 8.0f, Color, Message);
-}
-
-
-void PrintLog (const FString& Message)
-{
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *Message);
-}
-
-
-EAppReturnType::Type ShowMsgDialog(EAppMsgType::Type MsgType, const FString& Message, bool bShowMsgAsWarning = true)
-{
-
-	if(bShowMsgAsWarning)
-	{
-		const FText MsgTitle = FText::FromString(TEXT("Warning"));
-
-		return FMessageDialog::Open(EAppMsgType::Ok, FText::FromString(TEXT("Please enter a VALID number")), &MsgTitle);
+		GEngine->AddOnScreenDebugMessage(-1, 8.0f, Color, Message);
 	}
-	else
+
+
+	static void PrintLog (const FString& Message)
 	{
-		return FMessageDialog::Open(EAppMsgType::Ok, FText::FromString(TEXT("Please enter a VALID number")));
-
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *Message);
 	}
-}
 
-void ShowNotifyInfo(const FString& Message)
-{
-	FNotificationInfo NotifyInfo(FText::FromString(Message));
-	NotifyInfo.bUseLargeFont = true;
-	NotifyInfo.FadeOutDuration = 7.f;
 
-	FSlateNotificationManager::Get().AddNotification(NotifyInfo);
+	static EAppReturnType::Type ShowMsgDialog(EAppMsgType::Type MsgType, const FString& Message, bool bShowMsgAsWarning = true)
+	{
+
+		if(bShowMsgAsWarning)
+		{
+			const FText MsgTitle = FText::FromString(TEXT("Warning"));
+
+			return FMessageDialog::Open(MsgType, FText::FromString(Message), &MsgTitle);
+		}
+		else
+		{
+			return FMessageDialog::Open(MsgType, FText::FromString(Message));
+
+		}
+	}
+
+	void ShowNotifyInfo(const FString& Message)
+	{
+		FNotificationInfo NotifyInfo(FText::FromString(Message));
+		NotifyInfo.bUseLargeFont = true;
+		NotifyInfo.FadeOutDuration = 7.f;
+
+		FSlateNotificationManager::Get().AddNotification(NotifyInfo);
+	}
 }

@@ -13,7 +13,7 @@ void UQuickAssetAction::DuplicateAssets(int32 NumOfDuplicates)
 {
 	if(NumOfDuplicates <= 0)
 	{
-		ShowMsgDialog(EAppMsgType::Ok, TEXT("Please, enter a VALID number"));
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("Please, enter a VALID number"));
 		return;
 	}
 
@@ -41,7 +41,7 @@ void UQuickAssetAction::DuplicateAssets(int32 NumOfDuplicates)
 	if(Counter > 0)
 	{
 		/*Print(TEXT("Successfully duplicated" + FString::FromInt(Counter) + " files"), FColor::Green);*/
-		ShowNotifyInfo(TEXT("Successfully duplicated" + FString::FromInt(Counter) + " files"));
+		DebugHeader::ShowNotifyInfo(TEXT("Successfully duplicated" + FString::FromInt(Counter) + " files"));
 	}
 	
 }
@@ -58,7 +58,7 @@ void UQuickAssetAction::AddPrefix()
 		const FString* FoundedPrefix = PrefixMap.Find(SelectedObject->GetClass());
 		if(!FoundedPrefix || FoundedPrefix->IsEmpty())
 		{
-			Print(TEXT("Failed to find prefix for class ") + SelectedObject->GetClass()->GetName(), FColor::Red);
+			DebugHeader::Print(TEXT("Failed to find prefix for class ") + SelectedObject->GetClass()->GetName(), FColor::Red);
 			continue;
 		}
 
@@ -66,7 +66,7 @@ void UQuickAssetAction::AddPrefix()
 
 		if(OldName.StartsWith(*FoundedPrefix))
 		{
-			Print(OldName + TEXT(" already has added prefix"), FColor::Red);
+			DebugHeader::Print(OldName + TEXT(" already has added prefix"), FColor::Red);
 			continue;
 		}
 
@@ -83,7 +83,7 @@ void UQuickAssetAction::AddPrefix()
 	
 	if(Counter > 0)
 	{
-		ShowNotifyInfo(TEXT("Successfully renamed " + FString::FromInt(Counter) + " assets"));
+		DebugHeader::ShowNotifyInfo(TEXT("Successfully renamed " + FString::FromInt(Counter) + " assets"));
 	}
 }
 
@@ -107,14 +107,14 @@ void UQuickAssetAction::RemoveUnusedAssets()
 
 	if(UnusedAssetsData.IsEmpty())
 	{
-		ShowMsgDialog(EAppMsgType::Ok, TEXT("No unused asset found among selected assets"),false);
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No unused asset found among selected assets"),false);
 		return;
 	}
 
 	const int32 NumOfAssetsDeleted = ObjectTools::DeleteAssets(UnusedAssetsData);
 	if(NumOfAssetsDeleted == 0) {return;}
-	
-	ShowNotifyInfo(TEXT("Successfully deleted " + FString::FromInt(NumOfAssetsDeleted) + TEXT(" unused assets")));
+
+	DebugHeader::ShowNotifyInfo(TEXT("Successfully deleted " + FString::FromInt(NumOfAssetsDeleted) + TEXT(" unused assets")));
 }
 
 
@@ -123,8 +123,6 @@ void UQuickAssetAction::FixUpRedirectors()
 	TArray<UObjectRedirector*> RedirectrorsToFixArray;
 
 	// загружаем модуль
-	/*FAssetRegistryModule& AssetRegistryModule =
-	FModuleManager::Get().LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));*/
 	const FAssetRegistryModule& AssetRegistryModule =
 	FModuleManager::LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));
 

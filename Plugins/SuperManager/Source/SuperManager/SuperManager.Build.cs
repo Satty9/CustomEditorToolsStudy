@@ -41,6 +41,7 @@ public class SuperManager : ModuleRules
 				"UMG",
 				"UnrealEd",
 				/*"AssetToolsModule"*/
+				/*"ContentBrowser",*/
 			}
 			);
 			
