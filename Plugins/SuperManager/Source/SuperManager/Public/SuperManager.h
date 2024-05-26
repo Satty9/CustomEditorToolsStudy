@@ -16,7 +16,6 @@ public:
 private:
 
 #pragma region ContentBrowserMenuExtention
-
 	void InitContentBrowserMenuExtention();
 
 	TArray<FString> FolderPathSelected;
@@ -24,8 +23,19 @@ private:
 
 	void AddContentBrowserMenuEntry(class FMenuBuilder& MenuBuilder);
 
+#pragma region MenuExtentionFunctions
+	
 	void OnDeleteUnusedAssetButtonClicked();
-
 	void OnDeleteEmptyFoldersButtonClicked();
+	void OnAdvanceDeletionButtonClicked();
+	
+#pragma endregion
 #pragma endregion 
+
+#pragma region CustomEditorTab
+	void RegisterAdvanceDelitionTab();
+
+	TSharedRef<SDockTab> OnSpawnAdvanceDelitionTab(const FSpawnTabArgs& SpawnTabArgs);
+#pragma endregion
 };
+ 

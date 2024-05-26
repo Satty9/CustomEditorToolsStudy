@@ -6,7 +6,7 @@
 #include "EditorAssetLibrary.h"
 #include "ObjectTools.h"
 #include "AssetActions/QuickAssetAction.h"
-#include "EnvironmentQuery/EnvQueryTypes.h"
+
 
 
 #define LOCTEXT_NAMESPACE "FSuperManagerModule"
@@ -17,12 +17,11 @@ void FSuperManagerModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	InitContentBrowserMenuExtention();
+	RegisterAdvanceDelitionTab();
 }
 
 
 #pragma region ContentBrowserMenuExtention
-
-
 void FSuperManagerModule::InitContentBrowserMenuExtention()
 {
 	FContentBrowserModule& ContentBrowserModule =
@@ -74,9 +73,16 @@ void FSuperManagerModule::AddContentBrowserMenuEntry(FMenuBuilder& MenuBuilder)
 		FSlateIcon(),
 		FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteEmptyFoldersButtonClicked)
 		);
+		
+	MenuBuilder.AddMenuEntry(
+    	FText::FromString("Advance deletion"),
+    	FText::FromString("List asset by specific condition in a tab for deleting"),
+    	FSlateIcon(),
+    	FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnAdvanceDeletionButtonClicked)
+    	);
 }
 
-
+#pragma region MenuExtentionFunctions
 void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
 {
 	if(FolderPathSelected.Num() > 1)
@@ -191,8 +197,31 @@ void FSuperManagerModule::OnDeleteEmptyFoldersButtonClicked()
 	}
 }
 
+void FSuperManagerModule::OnAdvanceDeletionButtonClicked()
+{
+	//DebugHeader::Print(TEXT("Working"), FColor::Green);
+	FGlobalTabmanager::Get()->TryInvokeTab(FName("AdvanceDeletion"));
+}
+#pragma endregion 
+
 #pragma endregion
 
+#pragma region CustomEditorTab
+
+void FSuperManagerModule::RegisterAdvanceDelitionTab()
+{
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(FName("AdvanceDeletion"),
+		FOnSpawnTab::CreateRaw(this, &FSuperManagerModule::OnSpawnAdvanceDelitionTab))
+		.SetDisplayName(FText::FromString(TEXT("Advance Delition")));
+}
+
+TSharedRef<SDockTab> FSuperManagerModule::OnSpawnAdvanceDelitionTab(const FSpawnTabArgs& SpawnTabArgs)
+{
+	return SNew(SDockTab).TabRole(NomadTab);
+	
+}
+
+#pragma endregion
 
 void FSuperManagerModule::ShutdownModule()
 {

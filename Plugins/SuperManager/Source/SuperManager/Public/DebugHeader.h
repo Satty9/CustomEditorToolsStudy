@@ -36,7 +36,7 @@ namespace DebugHeader
 		}
 	}
 
-	void ShowNotifyInfo(const FString& Message)
+	static void ShowNotifyInfo(const FString& Message)
 	{
 		FNotificationInfo NotifyInfo(FText::FromString(Message));
 		NotifyInfo.bUseLargeFont = true;
