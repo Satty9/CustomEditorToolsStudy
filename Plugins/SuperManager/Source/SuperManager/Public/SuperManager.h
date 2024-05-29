@@ -36,6 +36,8 @@ private:
 	void RegisterAdvanceDelitionTab();
 
 	TSharedRef<SDockTab> OnSpawnAdvanceDelitionTab(const FSpawnTabArgs& SpawnTabArgs);
+
+	TArray<TSharedPtr <FAssetData> > GetAllAssetDataUnderSelectedFolder();
 #pragma endregion
 };
  

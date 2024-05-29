@@ -40,6 +40,7 @@ public class SuperManager : ModuleRules
 				"Niagara",
 				"UMG",
 				"UnrealEd",
+				"InputCore"
 				/*"AssetToolsModule"*/
 				/*"ContentBrowser",*/
 			}
